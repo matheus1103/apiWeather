@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - weatherNetwork
+
+  golang:
+    image: golang:latest
+    volumes:
+      - .:/usr/local/bin/app
+    working_dir: /usr/local/bin/app
+    command: sh -c "go mod tidy && go run ./cmd"
+    container_name: golang
+    ports:
+      - "80:80"
+    networks:
+      - weatherNetwork
+    environment:
+      - GO111MODULE=on
+
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: WeatherAPI
+    ports:
+      - "5432:5432"
+    networks:
+      - weatherNetwork
+
+networks:
+  weatherNetwork:
+    driver: bridge

@@ -1,0 +1,15 @@
+{
+    "name": "Go Project",
+    "image": "golang:latest",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "go.gopath": "/go",
+        "go.goroot": "/usr/local/go"
+    },
+    "extensions": [
+        "golang.go"
+    ],
+    "forwardPorts": [80],
+    "postCreateCommand": "go mod tidy",
+    "remoteUser": "root"
+}
